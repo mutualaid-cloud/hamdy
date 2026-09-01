@@ -1,0 +1,557 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hamdy Photographer | Writer & Seeker of Light</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        :root {
+            --bg-dark: #070d19;
+            --bg-card: #0e1a2f;
+            --accent-blue: #1e40af;
+            --accent-cyan: #38bdf8;
+            --accent-soft: #7dd3fc;
+            --text-light: #f0f9ff;
+            --text-muted: #94a3b8;
+            --overlay: rgba(7, 13, 25, 0.75);
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: var(--bg-dark);
+            color: var(--text-light);
+            line-height: 1.7;
+            overflow-x: hidden;
+        }
+
+        body[dir="rtl"] {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        h1, h2, h3, .brand-logo {
+            font-family: 'Cinzel', serif;
+            letter-spacing: 1px;
+        }
+
+        /* --- Header & Navigation --- */
+        header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.5rem 5%;
+            z-index: 1000;
+            background: linear-gradient(to bottom, rgba(7, 13, 25, 0.9), transparent);
+            backdrop-filter: blur(8px);
+        }
+
+        .brand-logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--text-light);
+            text-decoration: none;
+            text-transform: uppercase;
+        }
+
+        .brand-logo span {
+            color: var(--accent-cyan);
+        }
+
+        nav {
+            display: flex;
+            align-items: center;
+            gap: 2rem;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 1.8rem;
+        }
+
+        .nav-links a {
+            color: var(--text-light);
+            text-decoration: none;
+            font-size: 0.95rem;
+            font-weight: 500;
+            transition: var(--transition);
+        }
+
+        .nav-links a:hover {
+            color: var(--accent-cyan);
+        }
+
+        /* Language Selector */
+        .lang-select {
+            background: rgba(30, 64, 175, 0.3);
+            color: var(--text-light);
+            border: 1px solid var(--accent-cyan);
+            padding: 0.4rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            outline: none;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .lang-select:hover {
+            background: var(--accent-blue);
+        }
+
+        .lang-select option {
+            background: var(--bg-dark);
+            color: var(--text-light);
+        }
+
+        /* --- Hero Section with Video Background --- */
+        .hero {
+            position: relative;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 0 1rem;
+        }
+
+        .video-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: -2;
+        }
+
+        .hero-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle, rgba(14, 26, 47, 0.4) 0%, rgba(7, 13, 25, 0.85) 100%);
+            z-index: -1;
+        }
+
+        .hero-content h1 {
+            font-size: clamp(2.5rem, 5vw, 4.5rem);
+            margin-bottom: 1rem;
+            text-shadow: 0 4px 20px rgba(0,0,0,0.5);
+        }
+
+        .hero-content p {
+            font-size: clamp(1rem, 2vw, 1.25rem);
+            color: var(--accent-soft);
+            margin-bottom: 2rem;
+            font-weight: 300;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 0.8rem 2rem;
+            border-radius: 30px;
+            background: linear-gradient(135deg, var(--accent-blue), var(--accent-cyan));
+            color: #fff;
+            text-decoration: none;
+            font-weight: 600;
+            box-shadow: 0 4px 15px rgba(56, 189, 248, 0.3);
+            transition: var(--transition);
+        }
+
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(56, 189, 248, 0.5);
+        }
+
+        /* --- Global Section Styles --- */
+        section {
+            padding: 6rem 8%;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.2rem;
+            margin-bottom: 3rem;
+            position: relative;
+        }
+
+        .section-title::after {
+            content: '';
+            display: block;
+            width: 60px;
+            height: 3px;
+            background: var(--accent-cyan);
+            margin: 0.8rem auto 0;
+            border-radius: 2px;
+        }
+
+        /* --- About / Bio Section --- */
+        .about-container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: var(--bg-card);
+            padding: 3.5rem;
+            border-radius: 16px;
+            border: 1px solid rgba(56, 189, 248, 0.1);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+
+        .about-text p {
+            margin-bottom: 1.5rem;
+            color: #e2e8f0;
+            font-size: 1.05rem;
+        }
+
+        .org-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-top: 1rem;
+            padding: 0.6rem 1.2rem;
+            background: rgba(56, 189, 248, 0.1);
+            border: 1px solid var(--accent-cyan);
+            border-radius: 8px;
+            color: var(--accent-soft);
+            font-weight: 500;
+        }
+
+        /* --- Portfolio Section --- */
+        .portfolio-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .portfolio-item {
+            position: relative;
+            border-radius: 12px;
+            overflow: hidden;
+            height: 320px;
+            background: var(--bg-card);
+            border: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .portfolio-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: var(--transition);
+        }
+
+        .portfolio-item:hover img {
+            transform: scale(1.08);
+        }
+
+        .portfolio-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to top, rgba(7, 13, 25, 0.9), transparent);
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            padding: 1.5rem;
+            opacity: 0;
+            transition: var(--transition);
+        }
+
+        .portfolio-item:hover .portfolio-overlay {
+            opacity: 1;
+        }
+
+        /* --- Contact Section --- */
+        .contact-container {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .contact-form {
+            display: flex;
+            flex-direction: column;
+            gap: 1.2rem;
+        }
+
+        .form-group input, 
+        .form-group textarea {
+            width: 100%;
+            padding: 1rem;
+            background: var(--bg-card);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 8px;
+            color: #fff;
+            outline: none;
+            transition: var(--transition);
+        }
+
+        .form-group input:focus, 
+        .form-group textarea:focus {
+            border-color: var(--accent-cyan);
+            box-shadow: 0 0 10px rgba(56, 189, 248, 0.2);
+        }
+
+        /* --- Footer --- */
+        footer {
+            text-align: center;
+            padding: 3rem 1rem;
+            background: #040810;
+            border-top: 1px solid rgba(255,255,255,0.05);
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .social-links a {
+            color: var(--text-light);
+            font-size: 1.3rem;
+            transition: var(--transition);
+        }
+
+        .social-links a:hover {
+            color: var(--accent-cyan);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            header { padding: 1rem 4%; }
+            .nav-links { display: none; } /* Se puede ampliar a un menú hamburguesa */
+            section { padding: 4rem 5%; }
+            .about-container { padding: 2rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <a href="#" class="brand-logo">Hamdy <span>Photographer</span></a>
+        <nav>
+            <ul class="nav-links">
+                <li><a href="#about" data-i18n="nav-about">About</a></li>
+                <li><a href="#portfolio" data-i18n="nav-portfolio">Portfolio</a></li>
+                <li><a href="#contact" data-i18n="nav-contact">Contact</a></li>
+            </ul>
+            <select class="lang-select" id="langSelect" onchange="changeLanguage(this.value)">
+                <option value="en">English</option>
+                <option value="ar">العربية</option>
+                <option value="es">Español</option>
+                <option value="pt">Português</option>
+            </select>
+        </nav>
+    </header>
+
+    <section class="hero">
+        <video class="video-bg" autoplay loop muted playsinline>
+            <source src="assets/intro.mp4" type="video/mp4">
+            Your browser does not support HTML5 video.
+        </video>
+        <div class="hero-overlay"></div>
+        <div class="hero-content">
+            <h1>Hamdy</h1>
+            <p data-i18n="hero-tagline">Photographer, Writer & Seeker of Light</p>
+            <a href="#portfolio" class="btn" data-i18n="hero-btn">Explore Works</a>
+        </div>
+    </section>
+
+    <section id="about">
+        <h2 class="section-title" data-i18n="about-title">About Me</h2>
+        <div class="about-container">
+            <div class="about-text">
+                <p data-i18n="bio-p1">My journey with the camera began in 2010, driven by boundless passion and a dream of going as far as possible in the world of photography. Although the harsh realities of my circumstances dictated a different path and prevented some of those aspirations from being realized at the time, that dream remained alive within me. Today, I find a new opportunity in every shot to rekindle that longing and continue the journey with a more mature and steadfast perspective.</p>
+                <p data-i18n="bio-p2">Beyond being a photographer, I am a writer. I view images and words as two sides of the same quest: sometimes my texts are born from the photographs I take, while at other times, my reflections guide how I frame a shot. For me, photography is a space for meditation; each image holds an intimate story—a narrative of its own—and the echo of the emotions that stirred within me the very instant I pressed the shutter.</p>
+                
+                <div class="org-badge">
+                    <i class="fa-solid fa-camera"></i>
+                    <span data-i18n="bio-hope">Professional Photographer with HOPE Palestine</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="portfolio">
+        <h2 class="section-title" data-i18n="portfolio-title">Portfolio</h2>
+        <div class="portfolio-grid">
+            <div class="portfolio-item">
+                <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=800&q=80" alt="Humanity">
+                <div class="portfolio-overlay">
+                    <h3>Human Stories</h3>
+                    <p data-i18n="port-item1">Documenting hope and resilience</p>
+                </div>
+            </div>
+            <div class="portfolio-item">
+                <img src="https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=800&q=80" alt="Light">
+                <div class="portfolio-overlay">
+                    <h3>Light & Shadows</h3>
+                    <p data-i18n="port-item2">Visual meditations</p>
+                </div>
+            </div>
+            <div class="portfolio-item">
+                <img src="https://images.unsplash.com/photo-1469474968028-56623f02e42e?auto=format&fit=crop&w=800&q=80" alt="Landscapes">
+                <div class="portfolio-overlay">
+                    <h3>Reflections</h3>
+                    <p data-i18n="port-item3">Moments captured in time</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="contact">
+        <h2 class="section-title" data-i18n="contact-title">Contact</h2>
+        <div class="contact-container">
+            <form class="contact-form" action="https://formspree.io/f/your_form_id" method="POST">
+                <div class="form-group">
+                    <input type="text" name="name" placeholder="Your Name" required data-i18n-ph="form-name">
+                </div>
+                <div class="form-group">
+                    <input type="email" name="email" placeholder="Your Email" required data-i18n-ph="form-email">
+                </div>
+                <div class="form-group">
+                    <textarea name="message" rows="5" placeholder="Your Message" required data-i18n-ph="form-msg"></textarea>
+                </div>
+                <button type="submit" class="btn" style="width: 100%; border:none; cursor:pointer;" data-i18n="form-btn">Send Message</button>
+            </form>
+        </div>
+    </section>
+
+    <footer>
+        <div class="social-links">
+            <a href="#" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+            <a href="#" aria-label="Facebook"><i class="fa-brands fa-facebook"></i></a>
+            <a href="#" aria-label="Twitter"><i class="fa-brands fa-twitter"></i></a>
+            <a href="#" aria-label="LinkedIn"><i class="fa-brands fa-linkedin"></i></a>
+        </div>
+        <p>&copy; <span id="year"></span> Hamdy Photographer. All rights reserved.</p>
+    </footer>
+
+    <script>
+        document.getElementById('year').textContent = new Date().getFullYear();
+
+        const translations = {
+            en: {
+                "nav-about": "About",
+                "nav-portfolio": "Portfolio",
+                "nav-contact": "Contact",
+                "hero-tagline": "Photographer, Writer & Seeker of Light",
+                "hero-btn": "Explore Works",
+                "about-title": "About Me",
+                "bio-p1": "My journey with the camera began in 2010, driven by boundless passion and a dream of going as far as possible in the world of photography. Although the harsh realities of my circumstances dictated a different path and prevented some of those aspirations from being realized at the time, that dream remained alive within me. Today, I find a new opportunity in every shot to rekindle that longing and continue the journey with a more mature and steadfast perspective.",
+                "bio-p2": "Beyond being a photographer, I am a writer. I view images and words as two sides of the same quest: sometimes my texts are born from the photographs I take, while at other times, my reflections guide how I frame a shot. For me, photography is a space for meditation; each image holds an intimate story—a narrative of its own—and the echo of the emotions that stirred within me the very instant I pressed the shutter.",
+                "bio-hope": "Professional Photographer with HOPE Palestine",
+                "portfolio-title": "Portfolio",
+                "port-item1": "Documenting hope and resilience",
+                "port-item2": "Visual meditations",
+                "port-item3": "Moments captured in time",
+                "contact-title": "Contact",
+                "form-name": "Your Name",
+                "form-email": "Your Email",
+                "form-msg": "Your Message",
+                "form-btn": "Send Message"
+            },
+            es: {
+                "nav-about": "Sobre mí",
+                "nav-portfolio": "Portafolio",
+                "nav-contact": "Contacto",
+                "hero-tagline": "Fotógrafo, escritor y buscador de luz",
+                "hero-btn": "Explorar Obras",
+                "about-title": "Sobre Mí",
+                "bio-p1": "Mi viaje con la cámara comenzó en 2010, impulsado por una pasión sin límites y el sueño de llegar lo más lejos posible en el mundo de la fotografía. Aunque las duras realidades de mis circunstancias dictaron un camino diferente, ese sueño permaneció vivo en mí. Hoy encuentro en cada toma una nueva oportunidad para continuar el viaje con una perspectiva más madura y firme.",
+                "bio-p2": "Más allá de ser fotógrafo, soy escritor. Veo las imágenes y las palabras como dos caras de la misma búsqueda. Para mí, la fotografía es un espacio de meditación; cada imagen guarda una historia íntima y el eco de las emociones sentidas en el instante en que presioné el disparador.",
+                "bio-hope": "Fotógrafo Profesional en HOPE Palestine",
+                "portfolio-title": "Portafolio",
+                "port-item1": "Documentando esperanza y resiliencia",
+                "port-item2": "Meditaciones visuales",
+                "port-item3": "Momentos capturados en el tiempo",
+                "contact-title": "Contacto",
+                "form-name": "Tu Nombre",
+                "form-email": "Tu Correo",
+                "form-msg": "Tu Mensaje",
+                "form-btn": "Enviar Mensaje"
+            },
+            pt: {
+                "nav-about": "Sobre",
+                "nav-portfolio": "Portfólio",
+                "nav-contact": "Contato",
+                "hero-tagline": "Fotógrafo, escritor e buscador da luz",
+                "hero-btn": "Explorar Obras",
+                "about-title": "Sobre Mim",
+                "bio-p1": "Minha jornada com a câmera começou em 2010, movida por uma paixão sem limites. Embora as duras realidades das minhas circunstâncias tenham ditado um caminho diferente na época, esse sonho permaneceu vivo dentro de mim. Hoje, encontro em cada foto uma nova oportunidade de continuar a jornada com uma perspectiva mais madura.",
+                "bio-p2": "Além de fotógrafo, sou escritor. Vejo imagens e palavras como dois lados da mesma busca. Para mim, a fotografia é um espaço de meditação; cada imagem guarda uma história íntima.",
+                "bio-hope": "Fotógrafo Profissional com HOPE Palestine",
+                "portfolio-title": "Portfólio",
+                "port-item1": "Documentando esperança e resiliência",
+                "port-item2": "Meditações visuais",
+                "port-item3": "Momentos capturados no tempo",
+                "contact-title": "Contato",
+                "form-name": "Seu Nome",
+                "form-email": "Seu E-mail",
+                "form-msg": "Sua Mensagem",
+                "form-btn": "Enviar Mensagem"
+            },
+            ar: {
+                "nav-about": "من أنا",
+                "nav-portfolio": "معرض الأعمال",
+                "nav-contact": "تواصل معي",
+                "hero-tagline": "مصور، كاتب، والباحث عن الضوء",
+                "hero-btn": "استكشف الأعمال",
+                "about-title": "نبذة عني",
+                "bio-p1": "بدأت رحلتي مع الكاميرا في عام 2010، مدفوعة بشغف لا حدود له وحلم الذهاب إلى أبعد حد ممكن في عالم التصوير الفوتوغرافي. قادتني الظروف إلى مسارات مختلفة، لكن الحلم ظل حياً في داخلي. أجد اليوم في كل لقطة فرصة جديدة لمواصلة الرحلة برؤية أكثر نضجاً وثباتاً.",
+                "bio-p2": "إلى جانب كوني مصوراً، أنا كاتب. أرى الصور والكلمات كوجهين لجمال واحد. بالنسبة لي، التصوير هو مساحة للتأمل؛ كل صورة تحمل قصة حميمة وصداً للمشاعر التي تحركت في داخلي لحظة الضغط على زر التصوير.",
+                "bio-hope": "مصور محترف مع مؤسسة HOPE فلسطين",
+                "portfolio-title": "معرض الأعمال",
+                "port-item1": "توثيق الأمل والصمود",
+                "port-item2": "تأملات بصرية",
+                "port-item3": "لحظات موثقة في الزمن",
+                "contact-title": "تواصل معي",
+                "form-name": "الاسم",
+                "form-email": "البريد الإلكتروني",
+                "form-msg": "رستالتك",
+                "form-btn": "إرسال الرسالة"
+            }
+        };
+
+        function changeLanguage(lang) {
+            // Cambiar dirección de texto para Árabe (RTL)
+            if (lang === 'ar') {
+                document.body.setAttribute('dir', 'rtl');
+            } else {
+                document.body.setAttribute('dir', 'ltr');
+            }
+
+            // Actualizar textos
+            document.querySelectorAll('[data-i18n]').forEach(element => {
+                const key = element.getAttribute('data-i18n');
+                if (translations[lang] && translations[lang][key]) {
+                    element.textContent = translations[lang][key];
+                }
+            });
+
+            // Actualizar Placeholders del formulario
+            document.querySelectorAll('[data-i18n-ph]').forEach(element => {
+                const key = element.getAttribute('data-i18n-ph');
+                if (translations[lang] && translations[lang][key]) {
+                    element.setAttribute('placeholder', translations[lang][key]);
+                }
+            });
+        }
+    </script>
+</body>
+</html>
