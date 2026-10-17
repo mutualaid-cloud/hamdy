@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portfolio | Hamdy Photographer</title>
+    
+    <!-- Favicon SVG -->
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2338bdf8' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0-2-2h-3l-2.5-3z'/><circle cx='12' cy='13' r='3'/></svg>">
+
+    <!-- Fonts & FontAwesome -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        :root {
+            --bg-dark: #070d19;
+            --bg-card: #0e1a2f;
+            --accent-blue: #1e40af;
+            --accent-cyan: #38bdf8;
+            --text-light: #f0f9ff;
+            --text-muted: #94a3b8;
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: var(--bg-dark);
+            color: var(--text-light);
+            line-height: 1.6;
+        }
+
+        h1, h2, .brand-logo { font-family: 'Cinzel', serif; }
+
+        header {
+            padding: 1.5rem 6%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid rgba(56, 189, 248, 0.1);
+            background: rgba(7, 13, 25, 0.9);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            backdrop-filter: blur(10px);
+        }
+
+        .brand-logo {
+            font-size: 1.3rem;
+            color: var(--text-light);
+            text-decoration: none;
+            text-transform: uppercase;
+            font-weight: 700;
+        }
+        .brand-logo span { color: var(--accent-cyan); }
+
+        .back-link {
+            color: var(--accent-cyan);
+            text-decoration: none;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: var(--transition);
+        }
+        .back-link:hover { transform: translateX(-4px); }
+
+        .portfolio-header {
+            text-align: center;
+            padding: 3rem 1rem 1.5rem;
+        }
+        .portfolio-header h1 { font-size: 2.2rem; margin-bottom: 0.5rem; }
+        .portfolio-header p { color: var(--text-muted); font-size: 0.9rem; }
+
+        /* --- Grid de Fotos --- */
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+            gap: 1.2rem;
+            padding: 1.5rem 6% 4rem;
+        }
+
+        .photo-card {
+            position: relative;
+            background: var(--bg-card);
+            border-radius: 10px;
+            overflow: hidden;
+            border: 1px solid rgba(255,255,255,0.05);
+            aspect-ratio: 4/5;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+
+        .photo-card img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: var(--transition);
+        }
+
+        .photo-card:hover img {
+            transform: scale(1.06);
+        }
+
+        .photo-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to top, rgba(7, 13, 25, 0.85) 0%, transparent 60%);
+            display: flex;
+            align-items: flex-end;
+            justify-content: space-between;
+            padding: 1rem;
+            opacity: 0;
+            transition: var(--transition);
+        }
+
+        .photo-card:hover .photo-overlay { opacity: 1; }
+
+        .btn-buy {
+            padding: 0.45rem 0.9rem;
+            border-radius: 20px;
+            background: linear-gradient(135deg, var(--accent-blue), var(--accent-cyan));
+            color: #fff;
+            text-decoration: none;
+            font-size: 0.78rem;
+            font-weight: 600;
+            border: none;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            box-shadow: 0 4px 12px rgba(56, 189, 248, 0.3);
+            transition: var(--transition);
+        }
+
+        .btn-buy:hover { transform: scale(1.05); }
+
+        /* --- Visor en Pantalla Completa (Lightbox) --- */
+        .lightbox {
+            position: fixed;
+            inset: 0;
+            background: rgba(4, 8, 16, 0.95);
+            backdrop-filter: blur(15px);
+            z-index: 2000;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+            flex-direction: column;
+        }
+
+        .lightbox.active { display: flex; }
+
+        .lightbox-img {
+            max-width: 90%;
+            max-height: 80vh;
+            border-radius: 8px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.8);
+            object-fit: contain;
+        }
+
+        .lightbox-controls {
+            margin-top: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+        }
+
+        .close-lightbox {
+            position: absolute;
+            top: 2rem;
+            right: 2rem;
+            color: var(--text-light);
+            font-size: 2rem;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        .close-lightbox:hover { color: var(--accent-cyan); }
+
+        footer {
+            text-align: center;
+            padding: 2rem;
+            border-top: 1px solid rgba(255,255,255,0.05);
+            color: var(--text-muted);
+            font-size: 0.8rem;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <a href="index.html" class="brand-logo">Hamdy <span>Photographer</span></a>
+        <a href="index.html" class="back-link"><i class="fa-solid fa-arrow-left"></i> Back to Home</a>
+    </header>
+
+    <div class="portfolio-header">
+        <h1>Selected Works</h1>
+        <p>Explore high-resolution photographs and license original digital prints.</p>
+    </div>
+
+    <!-- Galería con las 114 fotos de Google Drive -->
+    <div class="gallery-grid" id="galleryGrid"></div>
+
+    <!-- Modal Visor Grande -->
+    <div class="lightbox" id="lightbox">
+        <span class="close-lightbox" onclick="closeLightbox()">&times;</span>
+        <img src="" alt="Enlarged preview" class="lightbox-img" id="lightboxImg">
+        <div class="lightbox-controls">
+            <a href="https://tu-link-de-pago.com" target="_blank" id="lightboxBuyBtn" class="btn-buy" style="padding: 0.7rem 1.5rem; font-size: 0.9rem;">
+                <i class="fa-solid fa-cart-shopping"></i> Purchase License
+            </a>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2026 Hamdy Photographer. All rights reserved.</p>
+    </footer>
+
+    <script>
+        // Array de IDs extraídos directamente de los 114 enlaces de Drive
+        const driveIds = [
+            "1JVRXXmxf7f-aJIqZZEiU587frtRNPAXZ", "1jpefn7sb2d2MLw2udfAJ-U_AsGVGIlUj", "1TmO9pEuILEITeQC344mR7q8d5vnKCbwb",
+            "1MBQ5F3dFdE17XKYuQofwtYs7a2-v25AB", "1jXqy_g7Px8hFvBOXJwVegiRwylyhwndh", "1138VCpvG7gUgPqc80bgZmkhDJkNP8mPC",
+            "1F2LBtizdFQ7I_ubRIobdq55SJtNFUgn5", "15gM6_o1_Jg2CbrK08cZ2I2113VkkP5Al", "1z3B6GHCt99YDrEWMFUwXxOER0HqoXuXu",
+            "1qAmlcJhqZLrrCzRQgJRSWgzsmnU9014o", "18AuhN0iCeVMdkR4WO4cTrGAjejUtc7Mn", "1YTub8erJ5ZnwV8yTkzuBO7ZCIiOKk4CV",
+            "1ECUUy2UTOVA1CNhC1zE9XdraLm2lNifI", "19MEDtqa_UrJXbNrAwpHt3crTtDevN3kc", "1b89joNWvLmreHwDnbAf9zGZphobZQZmU",
+            "1Ocl6LV7CHP8MQzvxFBJpvzMY5XnPhFqx", "1Fq9oEx7lwBedSZOefv7cF1MRSEf5MdTO", "1Ku9kqHE-yd_yS-fNPTXeR3pFDWcdQYuc",
+            "1YB2E7fF-e0Km-8xEtL3rH4n2PVk4KXGp", "10t43wHs0eh1JQvTC0cfW2Iqw_kQds14U", "1HllaCtSsxxCTgKlC1q7Xpn8HnnEuuux2",
+            "1PmrI18GlbRxABqlRNf6mvfchzcav9gTx", "1D-0u3d9Jzy0ekoOdoYHpSTvc85D6oUQY", "1hSRQIABeZF5kF1TBuMW8WXahKfxrhM9O",
+            "1JR40X-rvkfsr71PrPkcr_8_rIoU3npwY", "1FQkf2Lpyijjhy0wMImMe8R7QT5MUDBrs", "197ThSpMoC2-KaZxz8EPeriKavM2DoI2Y",
+            "1lW2Ez4ZvmwXp0XoeDKwVP0NP48aO6m_L", "10T1aaFGILW-HWrgyPuTE6_xYsUFK6__I", "1bV54fISFXHddJukcEImmYoWMwM00gWDT",
+            "138nus6NZFxmBbBl3JvMC41Nnq9NFEdtR", "1vsZPlaz5sFWpr5Qy9HrR_xw_FTpvaSSG", "1VbPVC9pZsq183wKhQYKmmrzB7a7d7izb",
+            "1V6AAEiZGkRdB7uTN3DUo0hYsQNX4b6tv", "1GQUM8bj636aIU89VfM-DpfDP1rjUX9h2", "1FjkKuzPM30QjG8h7HtnVZS0nviJrWGyN",
+            "1A5wcbO7UU05BRhd7hlt5BaDsryoQrbtF", "1wIEnEiBCyq8rqAGgxTygRWvJNV5fF4XZ", "1n6Jtrww-Oq_VWTG4cou6KonNQmuY7tB1",
+            "1jIfwtL1ov2_xjvimNEQ7fsYqT_Aj5-Kq", "1GqCJdoBTCwKaTdtW-CIC9f4MEL4xoGvR", "127xJtADpqWHzKLe5r4y2IsgjyAWfBoGu",
+            "1r427wYPSmzJnL6yrEKNkcqhDFxrigf1Y", "1YtsixEP8D07WqpBaX3MCTdHF5aoqD5VC", "1JoPF-mTPf7b2oV-ju3hTIFMXalpUTvQZ",
+            "15WOsj7SyYAIanDZkm0iMBUD-eMT84Lnc", "1RxPruvQ7PCp1HsGZ8KPxAJUmoPF93YwH", "15UxpPXpqzAj0PWdqnWhlpS5HtuTZdTDP",
+            "1dkdOefEAKqHUflsUwDNjnqHm2fQwXj9v", "1a9WOAw058TA7hj4kxGz3O0EvZ41XORxC", "10bdPqefkMnqJvymkSvdgtR_mhV2M2qw8",
+            "1BOL_wuy2ScW9dbqxfffmLeYW0RQXNQGB", "10TPmlLZ9R_pB1KOxbfLvHmdyk26rykPU", "1azQWwpy7hf5aoSghSUDzh_UOjVp8lXiu",
+            "15xtWKUmYcWh6nZMD71Zqs0rards995-T", "1UNvGCdne8oEuZ7lcSg6cCDT8Bz5OCd7S", "1IHSs6jnlJqFvc83zzYJMdKAwjpfoYHhj",
+            "1pns9VFiT2Ydrwg0WyY9Kl4NAr7Vl62_9", "1YGMIPkwwtzumB-xiWK9f3NVbR8KkP9qd", "1hy-p3XYDyVEcd4venEPQnJyq_0zOjcBn",
+            "1LOmM4Yw3nxwdaB0xTwDqHkwqVijPH9zy", "1rCssPjDEWdqzIAU5Hl5cO292LbFpSCDj", "1TfaJ4Sm6c_qdoRDA99xLxQ56zRCRCNso",
+            "1MySMhc9D5aSUZH-Dw51lKq5beTTFe1pQ", "1WySx1T7-skvE8AMzQk2B6sJxNYlSoyCH", "1YXF2P8aUUR0m6eYzlMIGF6Zjv5ao2960",
+            "1eFvstBAtZ2FuY1av0NpDWMFFTOteekfi", "1VM1N3o7-ugLjYO3BkK8yih5nPLaKAWeD", "1Nn4Vb6NDI6T327o48SjHprgCr4GHTjSx",
+            "1BTdnjuD94-C-toLsLSUeXoBK8_b9f1zj", "1Q3fKg5a-PmwTnb5zpULE_YqPCGOcg_pB", "1EN1_FghgYQCpbsKJSjXNthKBC6Jvjg7d",
+            "1Yw26TM8C0IYhEuu0JfWBpc_xdz2CbvWQ", "1DXqT-neQ_ek4_6haqil_hCPX8n5RTTkX", "1Ii4DmWKMyOne-2L7WOm3q7BrORfs6Yx3",
+            "1oQvR7UGA6PgdcPrLJiK8OmS_TYXUOGZn", "1ob-FEUgmtZLHM_bqA-aRHP9VshBb51i9", "1pKujHF12vkUFBbc3wDE1dtmzDPtSs4J9",
+            "1esY6du7pUqX-tbENSf6-mVQlntETQ9cG", "1qylxUFVrtT9TFbrUdplXog5eyr7dSRPr", "1ikWQTNWUQScEKEnx22q11hW4KhB1L8HT",
+            "1DpafMol14BMxforPx9PG9trtxN-8Q8Zw", "1oHIAUffKJWF7XgHpk4uviMyTUYIhWQGB", "1Xs3NetsJ4e2J88z7GL-UBvOsTxZyirem",
+            "1twhAOIyeKyaqTq65FEds_W5qzoGCnPdl", "13FTrTpahnJTcCYodq87H7qxPBvq3uNCP", "1p6_XxQcX-zE5JUynVz3Wca--fZ8Z1kQW",
+            "1kVW_loZ_0dZlRnxXYeC0K8f2CcWN-a6s", "1kvIAIx5jUgX3bqqXkb5dI9PL4cmJR1Vt", "1kvlMfZntnrFgVast95nGdDLG4BxPR8OS",
+            "1j-hewc7gDAjoUZlS2RxBzC8uYx5o7q04", "1RcKP_YwFTWwAvf8RAU85JJI7I_XmiqGr", "1Pk8SaE1JzAmeXcGpweYroXIv8POsskOF",
+            "1lh5zZ8_sZdGhArw-c_319_cv2v9f-Qu7", "1M7FICEA6dfDaj4bMWizGw9gN7dPy4KAv", "11-2vB0rFxdZBykOrv8ofzKdRrAKS3goM",
+            "1dQrfWMG6pTyTFKWnHjHPw8MPIXv05CtJ", "1SjT3QIOIrRo_jVDUkbX7a1VCLW7fOgSE", "1xnd9Qh2lVUm1l70iXNL-hmQSQrGal5wM",
+            "1QgOgoj4L7ecaXQtN8D5QcbzsgiF7FeFO", "1MEos0EYZdO7H1l3LPUsAIU6aOJFP3wNS", "1wSnsoySeSiO16ERv_pN6_l06vN-rE43s",
+            "1NA-0zVtEemU96WEml0J-Gmsi17CL5lNs", "1lWyXD1PMJTPHdu3tHuIyQLD90D0vHrIR", "1i_aj5AxgVnO2yQyYmgmFotbHz9gp5IpB",
+            "1YqqUTvf7AfzCZahPT0sBwkvr0vTaLE1O", "1ExaPpW-UOUP2Wbm9ZYZ5lY4ukx5-pd35", "1OQ2rh4B13ysCD8enMHVvdfBdxYeYV89-",
+            "1hd1FcP3csAXUspAuBTA-YQ4gWbwXNWgL", "1YMHR-IbBrrbSgJVs7AzxYPt-9y6D5ztk", "1UL9sRGSiD0EwJ_W0gSuz78EXh0hqeQ4F",
+            "1GTbsvPIayEQAAQj_Dp5D9VhkW1d8g5Eg", "1Pc1K8oJIIt794BBnNY_FX-GjKcHJfN6X", "1d4BLc1VdkFIsb3q2-DA0t4gJ9hOci6R_"
+        ];
+
+        const galleryGrid = document.getElementById('galleryGrid');
+        const lightbox = document.getElementById('lightbox');
+        const lightboxImg = document.getElementById('lightboxImg');
+
+        // Generar la galería
+        driveIds.forEach((id, index) => {
+            const imgUrl = `https://lh3.googleusercontent.com/d/${id}`;
+            const card = document.createElement('div');
+            card.className = 'photo-card';
+            card.onclick = () => openLightbox(imgUrl);
+
+            card.innerHTML = `
+                <img src="${imgUrl}" alt="Photo ${index + 1}" loading="lazy">
+                <div class="photo-overlay">
+                    <span style="font-size: 0.85rem; font-weight: 500;">Photo #${index + 1}</span>
+                    <button class="btn-buy" onclick="event.stopPropagation(); openLightbox('${imgUrl}')">
+                        <i class="fa-solid fa-expand"></i> View
+                    </button>
+                </div>
+            `;
+            galleryGrid.appendChild(card);
+        });
+
+        function openLightbox(url) {
+            lightboxImg.src = url;
+            lightbox.classList.add('active');
+        }
+
+        function closeLightbox() {
+            lightbox.classList.remove('active');
+        }
+    </script>
+</body>
+</html>
