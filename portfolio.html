@@ -354,11 +354,23 @@
             galleryGrid.appendChild(card);
         });
 
-        function openLightbox(url) {
-            lightboxImg.src = url;
-            lightbox.classList.add('active');
-        }
+       const lightboxBuyBtn = document.getElementById('lightboxBuyBtn');
 
+function openLightbox(url, photoNum) {
+    lightboxImg.src = url;
+    
+    // Tu número de WhatsApp con código de país (sin el signo + ni espacios)
+    // Ejemplo: 5491123456789 o el número asignado a tu link wa.link/4df5iv
+    const phoneNumber = "376 651 192"; // <-- Coloca tu número con código de país aquí
+
+    // Mensaje predeterminado personalizado
+    const message = `Hola! Estoy interesado en comprar la foto #${photoNum}.\nLink: ${url}`;
+    
+    // Genera la URL codificada de WhatsApp
+    lightboxBuyBtn.href = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
+
+    lightbox.classList.add('active');
+}
         function closeLightbox() {
             lightbox.classList.remove('active');
         }
