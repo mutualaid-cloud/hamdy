@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Portfolio | Hamdy Abu Sido</title>
+    <title>Portfolio | Hamdy Photographer</title>
     
     <!-- Favicon SVG -->
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2338bdf8' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0-2-2h-3l-2.5-3z'/><circle cx='12' cy='13' r='3'/></svg>">
@@ -34,6 +34,10 @@
             line-height: 1.6;
         }
 
+        body[dir="rtl"] {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
         h1, h2, .brand-logo { font-family: 'Cinzel', serif; }
 
         header {
@@ -58,6 +62,12 @@
         }
         .brand-logo span { color: var(--accent-cyan); }
 
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+        }
+
         .back-link {
             color: var(--accent-cyan);
             text-decoration: none;
@@ -68,6 +78,24 @@
             transition: var(--transition);
         }
         .back-link:hover { transform: translateX(-4px); }
+
+        .lang-select {
+            background: rgba(7, 13, 25, 0.4);
+            color: var(--text-light);
+            border: 1px solid rgba(56, 189, 248, 0.4);
+            padding: 0.35rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            outline: none;
+            cursor: pointer;
+            backdrop-filter: blur(4px);
+            transition: var(--transition);
+        }
+
+        .lang-select option {
+            background: var(--bg-dark);
+            color: var(--text-light);
+        }
 
         .portfolio-header {
             text-align: center;
@@ -139,7 +167,7 @@
 
         .btn-buy:hover { transform: scale(1.05); }
 
-        /* --- Visor en Pantalla Completa (Lightbox) --- */
+        /* --- Lightbox --- */
         .lightbox {
             position: fixed;
             inset: 0;
@@ -157,7 +185,7 @@
 
         .lightbox-img {
             max-width: 90%;
-            max-height: 80vh;
+            max-height: 75vh;
             border-radius: 8px;
             box-shadow: 0 10px 40px rgba(0,0,0,0.8);
             object-fit: contain;
@@ -194,15 +222,25 @@
 
     <header>
         <a href="index.html" class="brand-logo">Hamdy <span>Abu Sido</span></a>
-        <a href="index.html" class="back-link"><i class="fa-solid fa-arrow-left"></i> Back to Home</a>
+        <div class="header-actions">
+            <a href="index.html" class="back-link">
+                <i class="fa-solid fa-arrow-left"></i> <span data-i18n="back-home">Back to Home</span>
+            </a>
+            <select class="lang-select" id="langSelect" onchange="changeLanguage(this.value)">
+                <option value="en">English</option>
+                <option value="ar">العربية</option>
+                <option value="es">Español</option>
+                <option value="pt">Português</option>
+            </select>
+        </div>
     </header>
 
     <div class="portfolio-header">
-        <h1>Selected Works</h1>
-        <p>Explore high-resolution photographs and license original digital prints.</p>
+        <h1 data-i18n="portfolio-title">Selected Works</h1>
+        <p data-i18n="portfolio-sub">Explore high-resolution photographs and license original digital prints.</p>
     </div>
 
-    <!-- Galería con las 114 fotos de Google Drive -->
+    <!-- Galería con las fotos filtradas de Google Drive -->
     <div class="gallery-grid" id="galleryGrid"></div>
 
     <!-- Modal Visor Grande -->
@@ -210,18 +248,20 @@
         <span class="close-lightbox" onclick="closeLightbox()">&times;</span>
         <img src="" alt="Enlarged preview" class="lightbox-img" id="lightboxImg">
         <div class="lightbox-controls">
-            <a href="https://tu-link-de-pago.com" target="_blank" id="lightboxBuyBtn" class="btn-buy" style="padding: 0.7rem 1.5rem; font-size: 0.9rem;">
-                <i class="fa-solid fa-cart-shopping"></i> Purchase License
+            <a href="#" id="lightboxBuyBtn" class="btn-buy" style="padding: 0.7rem 1.5rem; font-size: 0.9rem;">
+                <i class="fa-solid fa-envelope"></i> <span data-i18n="buy-btn">Buy this picture</span>
             </a>
         </div>
     </div>
 
     <footer>
-        <p>&copy; 2026 Hamdy Photographer. All rights reserved.</p>
+        <p>&copy; <span id="year"></span> Hamdy Photographer. All rights reserved.</p>
     </footer>
 
     <script>
-        // Array de IDs extraídos directamente de los 114 enlaces de Drive
+        document.getElementById('year').textContent = new Date().getFullYear();
+
+        // IDs de Google Drive (Sin las duplicadas)
         const driveIds = [
             "1JVRXXmxf7f-aJIqZZEiU587frtRNPAXZ", "1jpefn7sb2d2MLw2udfAJ-U_AsGVGIlUj", "1TmO9pEuILEITeQC344mR7q8d5vnKCbwb",
             "1MBQ5F3dFdE17XKYuQofwtYs7a2-v25AB", "1jXqy_g7Px8hFvBOXJwVegiRwylyhwndh", "1138VCpvG7gUgPqc80bgZmkhDJkNP8mPC",
@@ -235,7 +275,7 @@
             "1lW2Ez4ZvmwXp0XoeDKwVP0NP48aO6m_L", "10T1aaFGILW-HWrgyPuTE6_xYsUFK6__I", "1bV54fISFXHddJukcEImmYoWMwM00gWDT",
             "138nus6NZFxmBbBl3JvMC41Nnq9NFEdtR", "1vsZPlaz5sFWpr5Qy9HrR_xw_FTpvaSSG", "1VbPVC9pZsq183wKhQYKmmrzB7a7d7izb",
             "1V6AAEiZGkRdB7uTN3DUo0hYsQNX4b6tv", "1GQUM8bj636aIU89VfM-DpfDP1rjUX9h2", "1FjkKuzPM30QjG8h7HtnVZS0nviJrWGyN",
-            "1A5wcbO7UU05BRhd7hlt5BaDsryoQrbtF", "1wIEnEiBCyq8rqAGgxTygRWvJNV5fF4XZ", "1n6Jtrww-Oq_VWTG4cou6KonNQmuY7tB1",
+            "1A5wcbO7UU05BRhd7hlt5BaDsryoQrbtF", "1n6Jtrww-Oq_VWTG4cou6KonNQmuY7tB1",
             "1jIfwtL1ov2_xjvimNEQ7fsYqT_Aj5-Kq", "1GqCJdoBTCwKaTdtW-CIC9f4MEL4xoGvR", "127xJtADpqWHzKLe5r4y2IsgjyAWfBoGu",
             "1r427wYPSmzJnL6yrEKNkcqhDFxrigf1Y", "1YtsixEP8D07WqpBaX3MCTdHF5aoqD5VC", "1JoPF-mTPf7b2oV-ju3hTIFMXalpUTvQZ",
             "15WOsj7SyYAIanDZkm0iMBUD-eMT84Lnc", "1RxPruvQ7PCp1HsGZ8KPxAJUmoPF93YwH", "15UxpPXpqzAj0PWdqnWhlpS5HtuTZdTDP",
@@ -263,22 +303,55 @@
             "1GTbsvPIayEQAAQj_Dp5D9VhkW1d8g5Eg", "1Pc1K8oJIIt794BBnNY_FX-GjKcHJfN6X", "1d4BLc1VdkFIsb3q2-DA0t4gJ9hOci6R_"
         ];
 
+        const translations = {
+            en: {
+                "back-home": "Back to Home",
+                "portfolio-title": "Selected Works",
+                "portfolio-sub": "Explore high-resolution photographs and license original digital prints.",
+                "buy-btn": "Buy this picture",
+                "photo-num": "Photo"
+            },
+            es: {
+                "back-home": "Volver al Inicio",
+                "portfolio-title": "Obras Seleccionadas",
+                "portfolio-sub": "Explora fotografías de alta resolución y adquiere licencias impresas o digitales.",
+                "buy-btn": "Comprar esta foto",
+                "photo-num": "Foto"
+            },
+            pt: {
+                "back-home": "Voltar ao Início",
+                "portfolio-title": "Obras Selecionadas",
+                "portfolio-sub": "Explore fotografias de alta resolução e adquira licenças digitais originais.",
+                "buy-btn": "Comprar esta foto",
+                "photo-num": "Foto"
+            },
+            ar: {
+                "back-home": "العودة للرئيسية",
+                "portfolio-title": "الأعمال المختارة",
+                "portfolio-sub": "استكشف الصور عالية الدقة واحصل على التراخيص الرقمية الأصلية.",
+                "buy-btn": "شراء هذه الصورة",
+                "photo-num": "صورة"
+            }
+        };
+
         const galleryGrid = document.getElementById('galleryGrid');
         const lightbox = document.getElementById('lightbox');
         const lightboxImg = document.getElementById('lightboxImg');
+        const lightboxBuyBtn = document.getElementById('lightboxBuyBtn');
 
-        // Generar la galería
+        // Renderizar fotos
         driveIds.forEach((id, index) => {
             const imgUrl = `https://lh3.googleusercontent.com/d/${id}`;
+            const photoNum = index + 1;
             const card = document.createElement('div');
             card.className = 'photo-card';
-            card.onclick = () => openLightbox(imgUrl);
+            card.onclick = () => openLightbox(imgUrl, photoNum);
 
             card.innerHTML = `
-                <img src="${imgUrl}" alt="Photo ${index + 1}" loading="lazy">
+                <img src="${imgUrl}" alt="Photo ${photoNum}" loading="lazy">
                 <div class="photo-overlay">
-                    <span style="font-size: 0.85rem; font-weight: 500;">Photo #${index + 1}</span>
-                    <button class="btn-buy" onclick="event.stopPropagation(); openLightbox('${imgUrl}')">
+                    <span style="font-size: 0.85rem; font-weight: 500;">#${photoNum}</span>
+                    <button class="btn-buy" onclick="event.stopPropagation(); openLightbox('${imgUrl}', ${photoNum})">
                         <i class="fa-solid fa-expand"></i> View
                     </button>
                 </div>
@@ -286,14 +359,37 @@
             galleryGrid.appendChild(card);
         });
 
-        function openLightbox(url) {
+        function openLightbox(url, photoNum) {
             lightboxImg.src = url;
+            
+            // Configurar enlace mailto para enviar email a HOPE Palestine
+            const subject = encodeURIComponent(`I want to buy a photo by Hamdy (#${photoNum})`);
+            const body = encodeURIComponent(`Hello,\n\nI am interested in purchasing the following photo by Hamdy:\n\nPhoto Number: #${photoNum}\nLink: ${url}\n\nPlease let me know the details to complete the purchase.\n\nThank you!`);
+            lightboxBuyBtn.href = `mailto:info@hopepalestina.com?subject=${subject}&body=${body}`;
+
             lightbox.classList.add('active');
         }
 
         function closeLightbox() {
             lightbox.classList.remove('active');
         }
+
+        function changeLanguage(lang) {
+            localStorage.setItem('site_lang', lang);
+            document.body.setAttribute('dir', lang === 'ar' ? 'rtl' : 'ltr');
+            document.getElementById('langSelect').value = lang;
+
+            document.querySelectorAll('[data-i18n]').forEach(element => {
+                const key = element.getAttribute('data-i18n');
+                if (translations[lang] && translations[lang][key]) {
+                    element.textContent = translations[lang][key];
+                }
+            });
+        }
+
+        // Cargar el idioma guardado al iniciar
+        const savedLang = localStorage.getItem('site_lang') || 'en';
+        changeLanguage(savedLang);
     </script>
 </body>
 </html>
