@@ -247,155 +247,154 @@
     <div class="gallery-grid" id="galleryGrid"></div>
 
     <!-- Modal Visor Grande -->
-    <div class="lightbox-controls">
-    <a href="#" id="lightboxBuyBtn" target="_blank" rel="noopener noreferrer" class="btn-buy" style="padding: 0.7rem 1.5rem; font-size: 0.9rem;">
-        <i class="fa-brands fa-whatsapp"></i> <span data-i18n="buy-btn">Buy this picture</span>
-    </a>
-</div>
+    <div class="lightbox" id="lightbox">
+        <span class="close-lightbox" onclick="closeLightbox()">&times;</span>
+        <img src="" alt="Enlarged preview" class="lightbox-img" id="lightboxImg">
+        <div class="lightbox-controls">
+            <a href="#" id="lightboxBuyBtn" target="_blank" rel="noopener noreferrer" class="btn-buy" style="padding: 0.7rem 1.5rem; font-size: 0.9rem;">
+                <i class="fa-brands fa-whatsapp"></i> <span data-i18n="buy-btn">Buy this picture</span>
+            </a>
+        </div>
     </div>
 
     <footer>
         <p>&copy; <span id="year"></span> Hamdy Photographer. All rights reserved.</p>
     </footer>
 
-   <script>
-    document.getElementById('year').textContent = new Date().getFullYear();
+    <script>
+        document.getElementById('year').textContent = new Date().getFullYear();
 
-    // IDs de Google Drive
-    const driveIds = [
-        "1JVRXXmxf7f-aJIqZZEiU587frtRNPAXZ", "1jpefn7sb2d2MLw2udfAJ-U_AsGVGIlUj", "1TmO9pEuILEITeQC344mR7q8d5vnKCbwb",
-        "1MBQ5F3dFdE17XKYuQofwtYs7a2-v25AB", "1jXqy_g7Px8hFvBOXJwVegiRwylyhwndh", "1138VCpvG7gUgPqc80bgZmkhDJkNP8mPC",
-        "1F2LBtizdFQ7I_ubRIobdq55SJtNFUgn5", "15gM6_o1_Jg2CbrK08cZ2I2113VkkP5Al", "1z3B6GHCt99YDrEWMFUwXxOER0HqoXuXu",
-        "1qAmlcJhqZLrrCzRQgJRSWgzsmnU9014o", "18AuhN0iCeVMdkR4WO4cTrGAjejUtc7Mn", "1YTub8erJ5ZnwV8yTkzuBO7ZCIiOKk4CV",
-        "1ECUUy2UTOVA1CNhC1zE9XdraLm2lNifI", "19MEDtqa_UrJXbNrAwpHt3crTtDevN3kc", "1b89joNWvLmreHwDnbAf9zGZphobZQZmU",
-        "1Ocl6LV7CHP8MQzvxFBJpvzMY5XnPhFqx", "1Fq9oEx7lwBedSZOefv7cF1MRSEf5MdTO", "1Ku9kqHE-yd_yS-fNPTXeR3pFDWcdQYuc",
-        "1YB2E7fF-e0Km-8xEtL3rH4n2PVk4KXGp", "10t43wHs0eh1JQvTC0cfW2Iqw_kQds14U", "1HllaCtSsxxCTgKlC1q7Xpn8HnnEuuux2",
-        "1PmrI18GlbRxABqlRNf6mvfchzcav9gTx", "1D-0u3d9Jzy0ekoOdoYHpSTvc85D6oUQY", "1hSRQIABeZF5kF1TBuMW8WXahKfxrhM9O",
-        "1JR40X-rvkfsr71PrPkcr_8_rIoU3npwY", "1FQkf2Lpyijjhy0wMImMe8R7QT5MUDBrs", "197ThSpMoC2-KaZxz8EPeriKavM2DoI2Y",
-        "1lW2Ez4ZvmwXp0XoeDKwVP0NP48aO6m_L", "10T1aaFGILW-HWrgyPuTE6_xYsUFK6__I", "1bV54fISFXHddJukcEImmYoWMwM00gWDT",
-        "138nus6NZFxmBbBl3JvMC41Nnq9NFEdtR", "1vsZPlaz5sFWpr5Qy9HrR_xw_FTpvaSSG", "1VbPVC9pZsq183wKhQYKmmrzB7a7d7izb",
-        "1V6AAEiZGkRdB7uTN3DUo0hYsQNX4b6tv", "1GQUM8bj636aIU89VfM-DpfDP1rjUX9h2", "1FjkKuzPM30QjG8h7HtnVZS0nviJrWGyN",
-        "1A5wcbO7UU05BRhd7hlt5BaDsryoQrbtF", "1n6Jtrww-Oq_VWTG4cou6KonNQmuY7tB1",
-        "1jIfwtL1ov2_xjvimNEQ7fsYqT_Aj5-Kq", "1GqCJdoBTCwKaTdtW-CIC9f4MEL4xoGvR", "127xJtADpqWHzKLe5r4y2IsgjyAWfBoGu",
-        "1r427wYPSmzJnL6yrEKNkcqhDFxrigf1Y", "1YtsixEP8D07WqpBaX3MCTdHF5aoqD5VC", "1JoPF-mTPf7b2oV-ju3hTIFMXalpUTvQZ",
-        "15WOsj7SyYAIanDZkm0iMBUD-eMT84Lnc", "1RxPruvQ7PCp1HsGZ8KPxAJUmoPF93YwH", "15UxpPXpqzAj0PWdqnWhlpS5HtuTZdTDP",
-        "1dkdOefEAKqHUflsUwDNjnqHm2fQwXj9v", "1a9WOAw058TA7hj4kxGz3O0EvZ41XORxC", "10bdPqefkMnqJvymkSvdgtR_mhV2M2qw8",
-        "1BOL_wuy2ScW9dbqxfffmLeYW0RQXNQGB", "10TPmlLZ9R_pB1KOxbfLvHmdyk26rykPU", "1azQWwpy7hf5aoSghSUDzh_UOjVp8lXiu",
-        "15xtWKUmYcWh6nZMD71Zqs0rards995-T", "1UNvGCdne8oEuZ7lcSg6cCDT8Bz5OCd7S", "1IHSs6jnlJqFvc83zzYJMdKAwjpfoYHhj",
-        "1pns9VFiT2Ydrwg0WyY9Kl4NAr7Vl62_9", "1YGMIPkwwtzumB-xiWK9f3NVbR8KkP9qd", "1hy-p3XYDyVEcd4venEPQnJyq_0zOjcBn",
-        "1LOmM4Yw3nxwdaB0xTwDqHkwqVijPH9zy", "1rCssPjDEWdqzIAU5Hl5cO292LbFpSCDj", "1TfaJ4Sm6c_qdoRDA99xLxQ56zRCRCNso",
-        "1MySMhc9D5aSUZH-Dw51lKq5beTTFe1pQ", "1WySx1T7-skvE8AMzQk2B6sJxNYlSoyCH", "1YXF2P8aUUR0m6eYzlMIGF6Zjv5ao2960",
-        "1eFvstBAtZ2FuY1av0NpDWMFFTOteekfi", "1VM1N3o7-ugLjYO3BkK8yih5nPLaKAWeD", "1Nn4Vb6NDI6T327o48SjHprgCr4GHTjSx",
-        "1BTdnjuD94-C-toLsLSUeXoBK8_b9f1zj", "1Q3fKg5a-PmwTnb5zpULE_YqPCGOcg_pB", "1EN1_FghgYQCpbsKJSjXNthKBC6Jvjg7d",
-        "1Yw26TM8C0IYhEuu0JfWBpc_xdz2CbvWQ", "1DXqT-neQ_ek4_6haqil_hCPX8n5RTTkX", "1Ii4DmWKMyOne-2L7WOm3q7BrORfs6Yx3",
-        "1oQvR7UGA6PgdcPrLJiK8OmS_TYXUOGZn", "1ob-FEUgmtZLHM_bqA-aRHP9VshBb51i9", "1pKujHF12vkUFBbc3wDE1dtmzDPtSs4J9",
-        "1esY6du7pUqX-tbENSf6-mVQlntETQ9cG", "1qylxUFVrtT9TFbrUdplXog5eyr7dSRPr", "1ikWQTNWUQScEKEnx22q11hW4KhB1L8HT",
-        "1DpafMol14BMxforPx9PG9trtxN-8Q8Zw", "1oHIAUffKJWF7XgHpk4uviMyTUYIhWQGB", "1Xs3NetsJ4e2J88z7GL-UBvOsTxZyirem",
-        "1twhAOIyeKyaqTq65FEds_W5qzoGCnPdl", "13FTrTpahnJTcCYodq87H7qxPBvq3uNCP", "1p6_XxQcX-zE5JUynVz3Wca--fZ8Z1kQW",
-        "1kVW_loZ_0dZlRnxXYeC0K8f2CcWN-a6s", "1kvIAIx5jUgX3bqqXkb5dI9PL4cmJR1Vt", "1kvlMfZntnrFgVast95nGdDLG4BxPR8OS",
-        "1j-hewc7gDAjoUZlS2RxBzC8uYx5o7q04", "1RcKP_YwFTWwAvf8RAU85JJI7I_XmiqGr", "1Pk8SaE1JzAmeXcGpweYroXIv8POsskOF",
-        "1lh5zZ8_sZdGhArw-c_319_cv2v9f-Qu7", "1M7FICEA6dfDaj4bMWizGw9gN7dPy4KAv", "11-2vB0rFxdZBykOrv8ofzKdRrAKS3goM",
-        "1dQrfWMG6pTyTFKWnHjHPw8MPIXv05CtJ", "1SjT3QIOIrRo_jVDUkbX7a1VCLW7fOgSE", "1xnd9Qh2lVUm1l70iXNL-hmQSQrGal5wM",
-        "1QgOgoj4L7ecaXQtN8D5QcbzsgiF7FeFO", "1MEos0EYZdO7H1l3LPUsAIU6aOJFP3wNS", "1wSnsoySeSiO16ERv_pN6_l06vN-rE43s",
-        "1NA-0zVtEemU96WEml0J-Gmsi17CL5lNs", "1lWyXD1PMJTPHdu3tHuIyQLD90D0vHrIR", "1i_aj5AxgVnO2yQyYmgmFotbHz9gp5IpB",
-        "1YqqUTvf7AfzCZahPT0sBwkvr0vTaLE1O", "1ExaPpW-UOUP2Wbm9ZYZ5lY4ukx5-pd35", "1OQ2rh4B13ysCD8enMHVvdfBdxYeYV89-",
-        "1hd1FcP3csAXUspAuBTA-YQ4gWbwXNWgL", "1YMHR-IbBrrbSgJVs7AzxYPt-9y6D5ztk", "1UL9sRGSiD0EwJ_W0gSuz78EXh0hqeQ4F",
-        "1GTbsvPIayEQAAQj_Dp5D9VhkW1d8g5Eg", "1Pc1K8oJIIt794BBnNY_FX-GjKcHJfN6X", "1d4BLc1VdkFIsb3q2-DA0t4gJ9hOci6R_"
-    ];
+        // IDs de Google Drive
+        const driveIds = [
+            "1JVRXXmxf7f-aJIqZZEiU587frtRNPAXZ", "1jpefn7sb2d2MLw2udfAJ-U_AsGVGIlUj", "1TmO9pEuILEITeQC344mR7q8d5vnKCbwb",
+            "1MBQ5F3dFdE17XKYuQofwtYs7a2-v25AB", "1jXqy_g7Px8hFvBOXJwVegiRwylyhwndh", "1138VCpvG7gUgPqc80bgZmkhDJkNP8mPC",
+            "1F2LBtizdFQ7I_ubRIobdq55SJtNFUgn5", "15gM6_o1_Jg2CbrK08cZ2I2113VkkP5Al", "1z3B6GHCt99YDrEWMFUwXxOER0HqoXuXu",
+            "1qAmlcJhqZLrrCzRQgJRSWgzsmnU9014o", "18AuhN0iCeVMdkR4WO4cTrGAjejUtc7Mn", "1YTub8erJ5ZnwV8yTkzuBO7ZCIiOKk4CV",
+            "1ECUUy2UTOVA1CNhC1zE9XdraLm2lNifI", "19MEDtqa_UrJXbNrAwpHt3crTtDevN3kc", "1b89joNWvLmreHwDnbAf9zGZphobZQZmU",
+            "1Ocl6LV7CHP8MQzvxFBJpvzMY5XnPhFqx", "1Fq9oEx7lwBedSZOefv7cF1MRSEf5MdTO", "1Ku9kqHE-yd_yS-fNPTXeR3pFDWcdQYuc",
+            "1YB2E7fF-e0Km-8xEtL3rH4n2PVk4KXGp", "10t43wHs0eh1JQvTC0cfW2Iqw_kQds14U", "1HllaCtSsxxCTgKlC1q7Xpn8HnnEuuux2",
+            "1PmrI18GlbRxABqlRNf6mvfchzcav9gTx", "1D-0u3d9Jzy0ekoOdoYHpSTvc85D6oUQY", "1hSRQIABeZF5kF1TBuMW8WXahKfxrhM9O",
+            "1JR40X-rvkfsr71PrPkcr_8_rIoU3npwY", "1FQkf2Lpyijjhy0wMImMe8R7QT5MUDBrs", "197ThSpMoC2-KaZxz8EPeriKavM2DoI2Y",
+            "1lW2Ez4ZvmwXp0XoeDKwVP0NP48aO6m_L", "10T1aaFGILW-HWrgyPuTE6_xYsUFK6__I", "1bV54fISFXHddJukcEImmYoWMwM00gWDT",
+            "138nus6NZFxmBbBl3JvMC41Nnq9NFEdtR", "1vsZPlaz5sFWpr5Qy9HrR_xw_FTpvaSSG", "1VbPVC9pZsq183wKhQYKmmrzB7a7d7izb",
+            "1V6AAEiZGkRdB7uTN3DUo0hYsQNX4b6tv", "1GQUM8bj636aIU89VfM-DpfDP1rjUX9h2", "1FjkKuzPM30QjG8h7HtnVZS0nviJrWGyN",
+            "1A5wcbO7UU05BRhd7hlt5BaDsryoQrbtF", "1n6Jtrww-Oq_VWTG4cou6KonNQmuY7tB1",
+            "1jIfwtL1ov2_xjvimNEQ7fsYqT_Aj5-Kq", "1GqCJdoBTCwKaTdtW-CIC9f4MEL4xoGvR", "127xJtADpqWHzKLe5r4y2IsgjyAWfBoGu",
+            "1r427wYPSmzJnL6yrEKNkcqhDFxrigf1Y", "1YtsixEP8D07WqpBaX3MCTdHF5aoqD5VC", "1JoPF-mTPf7b2oV-ju3hTIFMXalpUTvQZ",
+            "15WOsj7SyYAIanDZkm0iMBUD-eMT84Lnc", "1RxPruvQ7PCp1HsGZ8KPxAJUmoPF93YwH", "15UxpPXpqzAj0PWdqnWhlpS5HtuTZdTDP",
+            "1dkdOefEAKqHUflsUwDNjnqHm2fQwXj9v", "1a9WOAw058TA7hj4kxGz3O0EvZ41XORxC", "10bdPqefkMnqJvymkSvdgtR_mhV2M2qw8",
+            "1BOL_wuy2ScW9dbqxfffmLeYW0RQXNQGB", "10TPmlLZ9R_pB1KOxbfLvHmdyk26rykPU", "1azQWwpy7hf5aoSghSUDzh_UOjVp8lXiu",
+            "15xtWKUmYcWh6nZMD71Zqs0rards995-T", "1UNvGCdne8oEuZ7lcSg6cCDT8Bz5OCd7S", "1IHSs6jnlJqFvc83zzYJMdKAwjpfoYHhj",
+            "1pns9VFiT2Ydrwg0WyY9Kl4NAr7Vl62_9", "1YGMIPkwwtzumB-xiWK9f3NVbR8KkP9qd", "1hy-p3XYDyVEcd4venEPQnJyq_0zOjcBn",
+            "1LOmM4Yw3nxwdaB0xTwDqHkwqVijPH9zy", "1rCssPjDEWdqzIAU5Hl5cO292LbFpSCDj", "1TfaJ4Sm6c_qdoRDA99xLxQ56zRCRCNso",
+            "1MySMhc9D5aSUZH-Dw51lKq5beTTFe1pQ", "1WySx1T7-skvE8AMzQk2B6sJxNYlSoyCH", "1YXF2P8aUUR0m6eYzlMIGF6Zjv5ao2960",
+            "1eFvstBAtZ2FuY1av0NpDWMFFTOteekfi", "1VM1N3o7-ugLjYO3BkK8yih5nPLaKAWeD", "1Nn4Vb6NDI6T327o48SjHprgCr4GHTjSx",
+            "1BTdnjuD94-C-toLsLSUeXoBK8_b9f1zj", "1Q3fKg5a-PmwTnb5zpULE_YqPCGOcg_pB", "1EN1_FghgYQCpbsKJSjXNthKBC6Jvjg7d",
+            "1Yw26TM8C0IYhEuu0JfWBpc_xdz2CbvWQ", "1DXqT-neQ_ek4_6haqil_hCPX8n5RTTkX", "1Ii4DmWKMyOne-2L7WOm3q7BrORfs6Yx3",
+            "1oQvR7UGA6PgdcPrLJiK8OmS_TYXUOGZn", "1ob-FEUgmtZLHM_bqA-aRHP9VshBb51i9", "1pKujHF12vkUFBbc3wDE1dtmzDPtSs4J9",
+            "1esY6du7pUqX-tbENSf6-mVQlntETQ9cG", "1qylxUFVrtT9TFbrUdplXog5eyr7dSRPr", "1ikWQTNWUQScEKEnx22q11hW4KhB1L8HT",
+            "1DpafMol14BMxforPx9PG9trtxN-8Q8Zw", "1oHIAUffKJWF7XgHpk4uviMyTUYIhWQGB", "1Xs3NetsJ4e2J88z7GL-UBvOsTxZyirem",
+            "1twhAOIyeKyaqTq65FEds_W5qzoGCnPdl", "13FTrTpahnJTcCYodq87H7qxPBvq3uNCP", "1p6_XxQcX-zE5JUynVz3Wca--fZ8Z1kQW",
+            "1kVW_loZ_0dZlRnxXYeC0K8f2CcWN-a6s", "1kvIAIx5jUgX3bqqXkb5dI9PL4cmJR1Vt", "1kvlMfZntnrFgVast95nGdDLG4BxPR8OS",
+            "1j-hewc7gDAjoUZlS2RxBzC8uYx5o7q04", "1RcKP_YwFTWwAvf8RAU85JJI7I_XmiqGr", "1Pk8SaE1JzAmeXcGpweYroXIv8POsskOF",
+            "1lh5zZ8_sZdGhArw-c_319_cv2v9f-Qu7", "1M7FICEA6dfDaj4bMWizGw9gN7dPy4KAv", "11-2vB0rFxdZBykOrv8ofzKdRrAKS3goM",
+            "1dQrfWMG6pTyTFKWnHjHPw8MPIXv05CtJ", "1SjT3QIOIrRo_jVDUkbX7a1VCLW7fOgSE", "1xnd9Qh2lVUm1l70iXNL-hmQSQrGal5wM",
+            "1QgOgoj4L7ecaXQtN8D5QcbzsgiF7FeFO", "1MEos0EYZdO7H1l3LPUsAIU6aOJFP3wNS", "1wSnsoySeSiO16ERv_pN6_l06vN-rE43s",
+            "1NA-0zVtEemU96WEml0J-Gmsi17CL5lNs", "1lWyXD1PMJTPHdu3tHuIyQLD90D0vHrIR", "1i_aj5AxgVnO2yQyYmgmFotbHz9gp5IpB",
+            "1YqqUTvf7AfzCZahPT0sBwkvr0vTaLE1O", "1ExaPpW-UOUP2Wbm9ZYZ5lY4ukx5-pd35", "1OQ2rh4B13ysCD8enMHVvdfBdxYeYV89-",
+            "1hd1FcP3csAXUspAuBTA-YQ4gWbwXNWgL", "1YMHR-IbBrrbSgJVs7AzxYPt-9y6D5ztk", "1UL9sRGSiD0EwJ_W0gSuz78EXh0hqeQ4F",
+            "1GTbsvPIayEQAAQj_Dp5D9VhkW1d8g5Eg", "1Pc1K8oJIIt794BBnNY_FX-GjKcHJfN6X", "1d4BLc1VdkFIsb3q2-DA0t4gJ9hOci6R_"
+        ];
 
-    const translations = {
-        en: {
-            "back-home": "Back to Home",
-            "portfolio-title": "Selected Works",
-            "portfolio-sub": "Explore high-resolution photographs and license original digital prints.",
-            "buy-btn": "Buy this picture"
-        },
-        es: {
-            "back-home": "Volver al Inicio",
-            "portfolio-title": "Obras Seleccionadas",
-            "portfolio-sub": "Explora fotografías de alta resolución y adquiere licencias impresas o digitales.",
-            "buy-btn": "Comprar esta foto"
-        },
-        pt: {
-            "back-home": "Voltar ao Início",
-            "portfolio-title": "Obras Selecionadas",
-            "portfolio-sub": "Explore fotografias de alta resolução e adquira licenças digitais originais.",
-            "buy-btn": "Comprar esta foto"
-        },
-        ar: {
-            "back-home": "العودة للرئيسية",
-            "portfolio-title": "الأعمال المختارة",
-            "portfolio-sub": "استكشف الصور عالية الدقة واحصل على التراخيص الرقمية الأصلية.",
-            "buy-btn": "شراء هذه الصورة"
-        }
-    };
-
-    const galleryGrid = document.getElementById('galleryGrid');
-    const lightbox = document.getElementById('lightbox');
-    const lightboxImg = document.getElementById('lightboxImg');
-    const lightboxBuyBtn = document.getElementById('lightboxBuyBtn');
-
-    // Renderizar fotos
-    driveIds.forEach((id, index) => {
-        const imgUrl = `https://lh3.googleusercontent.com/d/${id}`;
-        const photoNum = index + 1;
-        const card = document.createElement('div');
-        card.className = 'photo-card';
-        card.onclick = () => openLightbox(imgUrl, photoNum); // <-- Pasa el número de foto
-
-        card.innerHTML = `
-            <img src="${imgUrl}" alt="Photo ${photoNum}" loading="lazy">
-            <div class="photo-overlay">
-                <span style="font-size: 0.85rem; font-weight: 500;">#${photoNum}</span>
-                <button class="btn-buy" onclick="event.stopPropagation(); openLightbox('${imgUrl}', ${photoNum})">
-                    <i class="fa-solid fa-expand"></i> View
-                </button>
-            </div>
-        `;
-        galleryGrid.appendChild(card);
-    });
-
-    function openLightbox(url, photoNum) {
-        lightboxImg.src = url;
-        
-        // Número formateado sin espacios ni caracteres especiales
-        const phoneNumber = "376651192";
-
-        // Mensaje con el número de la foto y el enlace
-        const message = `Hola! Estoy interesado en comprar la foto #${photoNum}.\nLink: ${url}`;
-        
-        // Asignación de enlace a WhatsApp
-        if (lightboxBuyBtn) {
-            lightboxBuyBtn.href = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
-        }
-
-        lightbox.classList.add('active');
-    }
-
-    function closeLightbox() {
-        lightbox.classList.remove('active');
-    }
-
-    function changeLanguage(lang) {
-        localStorage.setItem('site_lang', lang);
-        document.body.setAttribute('dir', lang === 'ar' ? 'rtl' : 'ltr');
-        
-        const langSelect = document.getElementById('langSelect');
-        if (langSelect) langSelect.value = lang;
-
-        document.querySelectorAll('[data-i18n]').forEach(element => {
-            const key = element.getAttribute('data-i18n');
-            if (translations[lang] && translations[lang][key]) {
-                element.textContent = translations[lang][key];
+        const translations = {
+            en: {
+                "back-home": "Back to Home",
+                "portfolio-title": "Selected Works",
+                "portfolio-sub": "Explore high-resolution photographs and license original digital prints.",
+                "buy-btn": "Buy this picture"
+            },
+            es: {
+                "back-home": "Volver al Inicio",
+                "portfolio-title": "Obras Seleccionadas",
+                "portfolio-sub": "Explora fotografías de alta resolución y adquiere licencias impresas o digitales.",
+                "buy-btn": "Comprar esta foto"
+            },
+            pt: {
+                "back-home": "Voltar ao Início",
+                "portfolio-title": "Obras Selecionadas",
+                "portfolio-sub": "Explore fotografias de alta resolução e adquira licenças digitais originais.",
+                "buy-btn": "Comprar esta foto"
+            },
+            ar: {
+                "back-home": "العودة للرئيسية",
+                "portfolio-title": "الأعمال المختارة",
+                "portfolio-sub": "استكشف الصور عالية الدقة واحصل على التراخيص الرقمية الأصلية.",
+                "buy-btn": "شراء هذه الصورة"
             }
-        });
-    }
+        };
 
-    // Cargar el idioma seleccionado en index.html
-    document.addEventListener('DOMContentLoaded', () => {
-        const savedLang = localStorage.getItem('site_lang') || 'en';
-        changeLanguage(savedLang);
-    });
-</script>
+        const galleryGrid = document.getElementById('galleryGrid');
+        const lightbox = document.getElementById('lightbox');
+        const lightboxImg = document.getElementById('lightboxImg');
+        const lightboxBuyBtn = document.getElementById('lightboxBuyBtn');
+
+        // Renderizar fotos
+        driveIds.forEach((id, index) => {
+            const imgUrl = `https://lh3.googleusercontent.com/d/${id}`;
+            const photoNum = index + 1;
+            const card = document.createElement('div');
+            card.className = 'photo-card';
+            card.onclick = () => openLightbox(imgUrl, photoNum);
+
+            card.innerHTML = `
+                <img src="${imgUrl}" alt="Photo ${photoNum}" loading="lazy">
+                <div class="photo-overlay">
+                    <span style="font-size: 0.85rem; font-weight: 500;">#${photoNum}</span>
+                    <button class="btn-buy" onclick="event.stopPropagation(); openLightbox('${imgUrl}', ${photoNum})">
+                        <i class="fa-solid fa-expand"></i> View
+                    </button>
+                </div>
+            `;
+            galleryGrid.appendChild(card);
+        });
+
+        function openLightbox(url, photoNum) {
+            if (lightboxImg) lightboxImg.src = url;
+            
+            const phoneNumber = "376651192";
+            const message = `Hola! Estoy interesado en comprar la foto #${photoNum}.\nLink: ${url}`;
+            
+            if (lightboxBuyBtn) {
+                lightboxBuyBtn.href = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
+            }
+
+            if (lightbox) lightbox.classList.add('active');
+        }
+
+        function closeLightbox() {
+            if (lightbox) lightbox.classList.remove('active');
+        }
+
+        function changeLanguage(lang) {
+            localStorage.setItem('site_lang', lang);
+            document.body.setAttribute('dir', lang === 'ar' ? 'rtl' : 'ltr');
+            
+            const langSelect = document.getElementById('langSelect');
+            if (langSelect) langSelect.value = lang;
+
+            document.querySelectorAll('[data-i18n]').forEach(element => {
+                const key = element.getAttribute('data-i18n');
+                if (translations[lang] && translations[lang][key]) {
+                    element.textContent = translations[lang][key];
+                }
+            });
+        }
+
+        // Cargar el idioma seleccionado previamente
+        document.addEventListener('DOMContentLoaded', () => {
+            const savedLang = localStorage.getItem('site_lang') || 'en';
+            changeLanguage(savedLang);
+        });
+    </script>
 </body>
 </html>
