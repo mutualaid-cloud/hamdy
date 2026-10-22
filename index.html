@@ -283,41 +283,42 @@
             .explore-btn-container { bottom: 2rem; right: 5%; }
         }
 
-        /* --- Banner Esquina Inferior Izquierda --- */
+       /* --- Banner Esquina Inferior Izquierda --- */
         .hope-banner-container {
             position: absolute;
-            bottom: 2rem;
+            bottom: 2.5rem;
             left: 6%;
             z-index: 10;
             animation: slowBlurIn 3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
         }
 
-        /* En caso de activar idioma árabe (RTL), el banner se acomoda a la derecha */
+        /* En caso de activar idioma árabe (RTL), el banner pasa a la derecha */
         body[dir="rtl"] .hope-banner-container {
             left: auto;
             right: 6%;
         }
 
         .hope-banner-img {
-            max-height: 55px; /* Ajusta la altura del banner según lo necesites */
+            max-height: 90px; /* Agrandado para computadoras (antes 55px) */
             width: auto;
             object-fit: contain;
-            filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.5));
+            filter: drop-shadow(0 4px 15px rgba(0, 0, 0, 0.6));
             transition: var(--transition);
         }
 
         .hope-banner-img:hover {
-            transform: translateY(-2px);
-            filter: drop-shadow(0 6px 16px rgba(56, 189, 248, 0.3));
+            transform: translateY(-3px);
+            filter: drop-shadow(0 8px 20px rgba(56, 189, 248, 0.4));
         }
 
+        /* --- Ajustes Responsivos para Celulares --- */
         @media (max-width: 768px) {
             .hope-banner-container {
-                bottom: 5.5rem; /* Evita que choque con el botón Explore Works en celulares */
+                bottom: 5.5rem; /* Posicionado arriba del botón Explore en móviles */
                 left: 5%;
             }
             .hope-banner-img {
-                max-height: 40px;
+                max-height: 55px; /* Tamaño optimizado para pantallas pequeñas */
             }
         }
     </style>
