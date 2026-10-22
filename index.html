@@ -283,43 +283,27 @@
             .explore-btn-container { bottom: 2rem; right: 5%; }
         }
 
-       /* --- Banner Esquina Inferior Izquierda --- */
-        .hope-banner-container {
-            position: absolute;
-            bottom: 2.5rem;
-            left: 6%;
-            z-index: 10;
-            animation: slowBlurIn 3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-        }
-
-        /* En caso de activar idioma árabe (RTL), el banner pasa a la derecha */
-        body[dir="rtl"] .hope-banner-container {
-            left: auto;
-            right: 6%;
+       /* --- Banner integrado debajo de la Bio --- */
+        .hope-banner-wrapper {
+            margin-top: 1.5rem;
+            display: block;
+            width: 100%;
         }
 
         .hope-banner-img {
-            max-height: 90px; /* Agrandado para computadoras (antes 55px) */
-            width: auto;
+            width: 100%;          /* Ocupa todo el ancho disponible de la columna de la bio */
+            max-width: 340px;     /* Mismo ancho exacto que el texto (340px) */
+            height: auto;         /* Mantiene la proporción original de la imagen */
+            display: block;
             object-fit: contain;
             filter: drop-shadow(0 4px 15px rgba(0, 0, 0, 0.6));
             transition: var(--transition);
+            border-radius: 6px;   /* Opcional: bordes ligeramente suaves */
         }
 
         .hope-banner-img:hover {
             transform: translateY(-3px);
             filter: drop-shadow(0 8px 20px rgba(56, 189, 248, 0.4));
-        }
-
-        /* --- Ajustes Responsivos para Celulares --- */
-        @media (max-width: 768px) {
-            .hope-banner-container {
-                bottom: 5.5rem; /* Posicionado arriba del botón Explore en móviles */
-                left: 5%;
-            }
-            .hope-banner-img {
-                max-height: 55px; /* Tamaño optimizado para pantallas pequeñas */
-            }
         }
     </style>
 </head>
@@ -368,7 +352,7 @@
 
         <!-- Banner HOPE Palestina (Esquina Inferior Izquierda) -->
         <div class="hope-banner-container">
-            <a href="https://hopepalestina.com" target="_blank" rel="noopener noreferrer" title=_blank>
+            <a href="https://hopepalestina.com" target="_blank" rel="noopener noreferrer" title=Hope Palestina>
                 <img src="assets/banner hope.png" alt="HOPE Palestine Banner" class="hope-banner-img">
             </a>
             
