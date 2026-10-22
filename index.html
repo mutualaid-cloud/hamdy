@@ -283,22 +283,26 @@
             .explore-btn-container { bottom: 2rem; right: 5%; }
         }
 
-       /* --- Banner integrado debajo de la Bio --- */
+      /* --- Banner integrado justo debajo de la Bio con animación --- */
         .hope-banner-wrapper {
-            margin-top: 1.5rem;
             display: block;
             width: 100%;
+            clear: both;          /* Fuerza el salto de línea para ir abajo */
+            margin-top: 1.2rem;   /* Espacio respecto al segundo párrafo */
+
+            /* Misma animación de desenfoque lento que la bio */
+            animation: slowBlurIn 2.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
         }
 
         .hope-banner-img {
-            width: 100%;          /* Ocupa todo el ancho disponible de la columna de la bio */
-            max-width: 340px;     /* Mismo ancho exacto que el texto (340px) */
-            height: auto;         /* Mantiene la proporción original de la imagen */
+            width: 100%;
+            max-width: 340px;     /* Mismo ancho exacto del bloque de texto */
+            height: auto;
             display: block;
             object-fit: contain;
             filter: drop-shadow(0 4px 15px rgba(0, 0, 0, 0.6));
             transition: var(--transition);
-            border-radius: 6px;   /* Opcional: bordes ligeramente suaves */
+            border-radius: 6px;
         }
 
         .hope-banner-img:hover {
@@ -337,9 +341,16 @@
             <h1>Hamdy</h1>
             <p class="tagline" data-i18n="hero-tagline">Photographer, Writer & Seeker of Light</p>
             
-            <p class="bio-p" data-i18n="bio-p1">My journey with the camera began in 2010, driven by boundless passion and a dream of going as far as possible in the world of photography. Although circumstances dictated a different path, that dream remained alive within me. Today, I find a new opportunity in every shot to continue with a more mature perspective.</p>
+            <p class="bio-p" data-i18n="bio-p1">Mi viaje con la cámara comenzó en 2010, impulsado por una pasión sin límites. Aunque las circunstancias dictaron un camino diferente, ese sueño permaneció vivo en mí. Hoy encuentro en cada toma una nueva oportunidad para continuar con una perspectiva más madura.</p>
             
-            <p class="bio-p" data-i18n="bio-p2">Beyond being a photographer, I am a writer. I view images and words as two sides of the same quest. For me, photography is a space for meditation; each image holds an intimate story and the echo of emotions felt in the instant I pressed the shutter.</p>
+            <p class="bio-p" data-i18n="bio-p2">Más allá de ser fotógrafo, soy escritor. Veo las imágenes y las palabras como dos caras de la misma búsqueda. Para mí, la fotografía es un espacio de meditación; cada imagen guarda una historia íntima y el eco de las emociones sentidas al disparar.</p>
+
+            <!-- Banner animado debajo de la Bio -->
+            <div class="hope-banner-wrapper">
+                <a href="https://hopepalestina.com" target="_blank" rel="noopener noreferrer" title="HOPE Palestine">
+                    <img src="assets/banner hope.png" alt="HOPE Palestine Banner" class="hope-banner-img">
+                </a>
+            </div>
         </div>
 
         <!-- Botón Explore Works abajo a la derecha hacia portfolio.html -->
