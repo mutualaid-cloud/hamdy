@@ -282,6 +282,44 @@
             .hero-side-content { max-width: 100%; margin-top: 4rem; }
             .explore-btn-container { bottom: 2rem; right: 5%; }
         }
+
+        /* --- Banner Esquina Inferior Izquierda --- */
+        .hope-banner-container {
+            position: absolute;
+            bottom: 2rem;
+            left: 6%;
+            z-index: 10;
+            animation: slowBlurIn 3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        /* En caso de activar idioma árabe (RTL), el banner se acomoda a la derecha */
+        body[dir="rtl"] .hope-banner-container {
+            left: auto;
+            right: 6%;
+        }
+
+        .hope-banner-img {
+            max-height: 55px; /* Ajusta la altura del banner según lo necesites */
+            width: auto;
+            object-fit: contain;
+            filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.5));
+            transition: var(--transition);
+        }
+
+        .hope-banner-img:hover {
+            transform: translateY(-2px);
+            filter: drop-shadow(0 6px 16px rgba(56, 189, 248, 0.3));
+        }
+
+        @media (max-width: 768px) {
+            .hope-banner-container {
+                bottom: 5.5rem; /* Evita que choque con el botón Explore Works en celulares */
+                left: 5%;
+            }
+            .hope-banner-img {
+                max-height: 40px;
+            }
+        }
     </style>
 </head>
 <body>
